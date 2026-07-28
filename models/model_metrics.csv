@@ -1,0 +1,12 @@
+"metric","value"
+"Accuracy",0.3291
+"Sensitivity",0.6923
+"Specificity",0.1509
+"PPV",0.2857
+"NPV",0.5
+"AUC_ROC",0.7025
+"N_total",394
+"N_train",315
+"N_test",79
+"N_at_risk_train",104
+"N_at_risk_test",26

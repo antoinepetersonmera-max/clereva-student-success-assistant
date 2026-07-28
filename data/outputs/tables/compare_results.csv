@@ -1,0 +1,4 @@
+"outcome","group1","group2","n_group1","n_group2","median_group1","median_group2","mean_group1","mean_group2","diff_medians","W_statistic","p_value","p_adj_bonferroni","effect_size_r"
+"G1","GP","MS",348,46,11,10.5,10.95,10.67,0.5,8429,0.5571,1,-0.053
+"G2","GP","MS",348,46,11,10,10.79,10.2,1,8928,0.2015,0.6045,-0.115
+"G3","GP","MS",348,46,11,10,10.49,9.85,1,8934,0.1985,0.5955,-0.116
