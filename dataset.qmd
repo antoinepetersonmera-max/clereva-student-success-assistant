@@ -1,0 +1,122 @@
+---
+title: "Dataset"
+description: "Description, codebook, and data quality overview for the student-mat dataset"
+---
+
+```{r}
+#| label: setup
+#| include: false
+source("R/import_data.R")
+source("R/clean_data.R")
+source("R/validation.R")
+
+raw_df   <- import_data()
+clean_df <- clean_data(raw_df)
+```
+
+## Source
+
+**UCI Machine Learning Repository — Student Performance Data Set**
+
+- **Citation**: P. Cortez and A. Silva (2008). *Using Data Mining to Predict Secondary School Student Performance.*
+- **Cohort**: Mathematics students from two Portuguese secondary schools (Gabriel Pereira — "GP" and Mousinho da Silveira — "MS")
+- **N**: `r nrow(clean_df)` students
+- **Period**: 2005–2006 academic year
+
+---
+
+## Target Variable
+
+The binary outcome variable `at_risk` is engineered from the final grade G3:
+
+```{r}
+#| label: target-dist
+table(clean_df$at_risk)
+round(prop.table(table(clean_df$at_risk)) * 100, 1)
+```
+
+> **Threshold**: A student is classified as **At Risk** if their final
+> Mathematics grade (G3) is **below 10** on the Portuguese 0–20 scale.
+
+---
+
+## Variable Codebook
+
+```{r}
+#| label: codebook
+codebook <- data.frame(
+  Variable    = c("school","sex","age","address","famsize","Pstatus",
+                  "Medu","Fedu","Mjob","Fjob","reason","guardian",
+                  "traveltime","studytime","failures","schoolsup","famsup",
+                  "paid","activities","nursery","higher","internet",
+                  "romantic","famrel","freetime","goout","Dalc","Walc",
+                  "health","absences","G1","G2","G3","at_risk"),
+  Type        = c("Factor","Factor","Numeric","Factor","Factor","Factor",
+                  "Numeric","Numeric","Factor","Factor","Factor","Factor",
+                  "Numeric","Numeric","Numeric","Factor","Factor",
+                  "Factor","Factor","Factor","Factor","Factor",
+                  "Factor","Numeric","Numeric","Numeric","Numeric","Numeric",
+                  "Numeric","Numeric","Numeric","Numeric","Numeric","Factor"),
+  Description = c(
+    "School (GP = Gabriel Pereira, MS = Mousinho da Silveira)",
+    "Student sex (F = Female, M = Male)",
+    "Student age (15–22)",
+    "Home address type (U = Urban, R = Rural)",
+    "Family size (LE3 = ≤3, GT3 = >3)",
+    "Parent cohabitation status (T = Together, A = Apart)",
+    "Mother's education level (0 = none to 4 = higher education)",
+    "Father's education level (0 = none to 4 = higher education)",
+    "Mother's job (teacher, health, services, at_home, other)",
+    "Father's job (teacher, health, services, at_home, other)",
+    "Reason for choosing school (home, reputation, course, other)",
+    "Student guardian (mother, father, other)",
+    "Home-to-school travel time (1 = <15min to 4 = >1hr)",
+    "Weekly study time (1 = <2hrs to 4 = >10hrs)",
+    "Number of past class failures (0–3, 4+ coded as 4)",
+    "Extra educational school support (yes/no)",
+    "Family educational support (yes/no)",
+    "Extra paid classes within the subject (yes/no)",
+    "Extra-curricular activities (yes/no)",
+    "Attended nursery school (yes/no)",
+    "Wants to pursue higher education (yes/no)",
+    "Internet access at home (yes/no)",
+    "Currently in a romantic relationship (yes/no)",
+    "Quality of family relationships (1 = very bad to 5 = excellent)",
+    "Free time after school (1 = very low to 5 = very high)",
+    "Going out with friends (1 = very low to 5 = very high)",
+    "Workday alcohol consumption (1 = very low to 5 = very high)",
+    "Weekend alcohol consumption (1 = very low to 5 = very high)",
+    "Current health status (1 = very bad to 5 = very good)",
+    "Number of school absences (0–93)",
+    "First period grade (0–20)",
+    "Second period grade (0–20)",
+    "Final grade (0–20) — primary outcome",
+    "Engineered: 1 = G3 < 10 (At Risk), 0 = G3 ≥ 10 (Low Risk)"
+  ),
+  stringsAsFactors = FALSE
+)
+knitr::kable(codebook, caption = "Student-mat variable codebook")
+```
+
+---
+
+## Data Quality
+
+```{r}
+#| label: data-quality
+# Missing values
+missing_counts <- colSums(is.na(clean_df))
+cat("Missing values per column:\n")
+print(missing_counts[missing_counts > 0])
+if (sum(missing_counts) == 0) cat("No missing values detected.\n")
+
+# Dataset dimensions
+cat(sprintf("\nDimensions: %d rows x %d columns\n", nrow(clean_df), ncol(clean_df)))
+```
+
+> All variables pass the CLEREVA validation layer checks:
+> ranges, types, and sample size are confirmed via `validate_student_dataset()`.
+
+---
+
+*Continue to [Explore](explore.qmd) for exploratory data analysis.*

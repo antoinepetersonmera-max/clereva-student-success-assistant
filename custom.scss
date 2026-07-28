@@ -1,0 +1,131 @@
+/*-- scss:rules --*/
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+body {
+  font-family: 'Plus Jakarta Sans', 'Outfit', system-ui, -apple-system, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1, h2, h3, h4, h5, h6, p, span, li, a, table, th, td {
+  transition: color 0.3s ease;
+}
+
+/* Light Theme (White Background) */
+body.quarto-light {
+  background-color: #ffffff !important;
+  color: #1f2937 !important;
+
+  h1, h2, h3, h4, h5, h6 {
+    color: #111827 !important;
+  }
+
+  .sidebar, #quarto-sidebar {
+    background-color: #f8fafc !important;
+    border-right: 1px solid #e2e8f0 !important;
+  }
+
+  .sidebar a, #quarto-sidebar a {
+    color: #4b5563 !important;
+  }
+
+  .sidebar a.active, #quarto-sidebar a.active,
+  .sidebar a:hover, #quarto-sidebar a:hover {
+    color: #111827 !important;
+    background-color: #e2e8f0 !important;
+  }
+
+  .navbar, #quarto-header .navbar {
+    background-color: #ffffff !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+  }
+
+  .navbar-title, .navbar .nav-link {
+    color: #111827 !important;
+  }
+
+  .navbar .nav-link:hover {
+    color: #2563eb !important;
+  }
+
+  /* Code blocks and tables readability */
+  code {
+    color: #0f172a !important;
+    background-color: #f1f5f9 !important;
+  }
+
+  table {
+    color: #1f2937 !important;
+  }
+}
+
+/* Dark Theme (Black Background) */
+body.quarto-dark {
+  background-color: #000000 !important;
+  color: #f3f4f6 !important;
+
+  h1, h2, h3, h4, h5, h6 {
+    color: #ffffff !important;
+  }
+
+  .sidebar, #quarto-sidebar {
+    background-color: #111111 !important;
+    border-right: 1px solid #222222 !important;
+  }
+
+  .sidebar a, #quarto-sidebar a {
+    color: #9ca3af !important;
+  }
+
+  .sidebar a.active, #quarto-sidebar a.active,
+  .sidebar a:hover, #quarto-sidebar a:hover {
+    color: #ffffff !important;
+    background-color: #222222 !important;
+  }
+
+  .navbar, #quarto-header .navbar {
+    background-color: #111111 !important;
+    border-bottom: 1px solid #222222 !important;
+  }
+
+  .navbar-title, .navbar .nav-link {
+    color: #f3f4f6 !important;
+  }
+
+  .navbar .nav-link:hover {
+    color: #60a5fa !important;
+  }
+
+  /* Code blocks and tables readability */
+  code {
+    color: #f3f4f6 !important;
+    background-color: #1e293b !important;
+  }
+
+  table {
+    color: #f3f4f6 !important;
+  }
+
+  table, th, td {
+    border-color: #333333 !important;
+  }
+}
+
+/* Common Components (Banners & Structure) */
+.title-block-banner {
+  background-color: #1a252f !important;
+  color: #ffffff !important;
+  border-bottom: none !important;
+}
+
+.title-block-banner h1.title,
+.title-block-banner p.subtitle,
+.title-block-banner .author,
+.title-block-banner .date {
+  color: #ffffff !important;
+}
+
+/* Page Titles styling */
+h1.title, .title, .quarto-title .title {
+  color: #ea580c !important;
+}

@@ -1,0 +1,96 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "CLEREVA — Student Success Assistant"
+  description: "Reproducible analysis of academic risk in Portuguese secondary schools"
+  favicon: ""
+
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: industry-problem.qmd
+        text: Problem
+      - href: dataset.qmd
+        text: Dataset
+    right:
+      - href: final_report.qmd
+        text: "📄 Final Report"
+
+  sidebar:
+    style: "floating"
+    search: true
+    contents:
+      - section: "Context"
+        contents:
+          - index.qmd
+          - industry-problem.qmd
+          - dataset.qmd
+      - section: "Statistical Skills"
+        contents:
+          - explore.qmd
+          - compare.qmd
+          - model.qmd
+          - absence-analysis.qmd
+          - support-ranking.qmd
+          - scenario-analysis.qmd
+      - section: "Evaluation"
+        contents:
+          - validation-limitations.qmd
+
+  page-footer:
+    left: "CLEREVA Student Success Assistant"
+    right: "Observational data — findings represent associations, not causal effects."
+
+format:
+  html:
+    theme:
+      light: [flatly, custom.scss]
+      dark: [darkly, custom.scss]
+    toc: true
+    toc-depth: 3
+    toc-location: left
+    toc-title: "Index"
+    code-fold: true
+    code-summary: "View R Code Block"
+    code-copy: hover
+    code-tools:
+      source: true
+      toggle: true
+    highlight-style: github
+    df-print: paged
+    anchor-sections: true
+    title-block-banner: "#1a252f"
+    title-block-banner-color: "#ffffff"
+    fig-width: 8
+    fig-height: 5
+    fig-dpi: 150
+    embed-resources: false
+    self-contained: false
+
+  pdf:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    colorlinks: true
+    fig-width: 7
+    fig-height: 4
+    fig-dpi: 150
+    geometry:
+      - margin=2.5cm
+    include-in-header:
+      - text: |
+          \usepackage{graphicx}
+          \makeatletter
+          \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+          \def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+          \makeatother
+          \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+
+execute:
+  echo: true
+  warning: false
+  message: false
+  cache: false

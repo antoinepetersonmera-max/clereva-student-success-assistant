@@ -1,0 +1,129 @@
+---
+title: "Validation & Limitations"
+description: "Validation layer documentation, model governance, and study limitations"
+---
+
+## Validation Layer
+
+All scripts in this project pass through a shared validation layer defined in
+[`R/validation.R`](R/validation.R). The layer enforces the following checks
+before any analysis runs:
+
+| Check | Function | What It Guards |
+|---|---|---|
+| Column presence | `validate_columns()` | Ensures required variables exist |
+| Variable types | `validate_types()` | Ensures factors/numerics are correctly typed |
+| Two-group structure | `validate_two_groups()` | Ensures exactly 2 levels for comparisons |
+| Sample size | `validate_sample_size()` | Minimum 30 overall, 10 per group |
+| Missingness | `validate_missingness()` | Warns if any column exceeds 5% NAs |
+| Range bounds | `validate_ranges()` | Grades 0–20, age 15–22, absences 0–100 |
+| Causal language | `validate_causal_claims()` | Warns on deterministic causal wording |
+
+---
+
+## Model Governance
+
+### Baseline Comparison
+
+```{r}
+#| label: baseline
+metrics <- read.csv("models/model_metrics.csv")
+acc  <- metrics$value[metrics$metric == "Accuracy"]
+n    <- nrow(read.csv("data/processed/student_clean.csv"))
+at_risk_pct <- mean(read.csv("data/processed/student_clean.csv")$at_risk == "At Risk")
+majority_class_acc <- round(max(at_risk_pct, 1 - at_risk_pct), 4)
+
+cat(sprintf(
+  "Logistic regression accuracy: %.4f\nMajority class baseline:       %.4f\nImprovement over baseline:     %.4f",
+  acc, majority_class_acc, acc - majority_class_acc
+))
+```
+
+### Fairness Checks
+
+```{r}
+#| label: fairness
+library(dplyr, warn.conflicts = FALSE)
+df    <- read.csv("data/processed/student_clean.csv", stringsAsFactors = TRUE)
+model <- readRDS("models/student_risk_model.rds")
+
+df$pred_prob  <- predict(model, newdata = df, type = "response")
+df$pred_class <- ifelse(df$pred_prob > 0.5, "At Risk", "Low Risk")
+
+# Accuracy by sex
+acc_by_sex <- df |>
+  group_by(sex) |>
+  summarise(
+    n          = n(),
+    accuracy   = round(mean(pred_class == as.character(at_risk)), 4),
+    pct_at_risk_actual    = round(mean(at_risk == "At Risk") * 100, 1),
+    pct_at_risk_predicted = round(mean(pred_class == "At Risk") * 100, 1),
+    .groups = "drop"
+  )
+
+knitr::kable(acc_by_sex,
+             caption = "Model accuracy and at-risk rates by sex",
+             digits = 4)
+
+# Accuracy by school
+acc_by_school <- df |>
+  group_by(school) |>
+  summarise(
+    n          = n(),
+    accuracy   = round(mean(pred_class == as.character(at_risk)), 4),
+    pct_at_risk_actual    = round(mean(at_risk == "At Risk") * 100, 1),
+    pct_at_risk_predicted = round(mean(pred_class == "At Risk") * 100, 1),
+    .groups = "drop"
+  )
+
+knitr::kable(acc_by_school,
+             caption = "Model accuracy and at-risk rates by school",
+             digits = 4)
+```
+
+---
+
+## Study Limitations
+
+1. **Observational design**: The dataset was collected retrospectively. No
+   randomised experiment was conducted. All associations may be confounded
+   by unmeasured variables (e.g., teacher quality, individual motivation).
+
+2. **Single subject, single cohort**: Results apply to Mathematics students
+   in two Portuguese schools in 2005–2006. Generalisability to other subjects,
+   countries, or time periods is unknown.
+
+3. **Small sample size (N = 395)**: The dataset is too small for robust
+   subgroup analysis or complex modelling. Confidence intervals are wide.
+
+4. **Self-reported predictors**: Variables such as `studytime`, `freetime`,
+   `goout`, and alcohol consumption are self-reported and subject to response bias.
+
+5. **Binary risk threshold**: The cut-off G3 < 10 is a policy threshold, not
+   a natural category. Students scoring 10 are treated identically to those
+   scoring 20, despite meaningful differences.
+
+6. **Model exclusions**: G1 and G2 are excluded to avoid data leakage.
+   A model that includes them would have higher accuracy but limited utility
+   for early intervention.
+
+7. **No temporal validation**: The model is evaluated on a held-out test set
+   from the same cohort, not on future cohorts (prospective validation).
+
+---
+
+## Responsible Use Statement
+
+This project is designed as a **decision-support tool**, not an automated
+decision-maker. It should be used to:
+
+- ✅ Help counsellors prioritise their time
+- ✅ Surface students who may otherwise go unnoticed
+- ✅ Stimulate conversations about intervention options
+
+It should **not** be used to:
+
+- ❌ Automatically enrol students in programmes without consent
+- ❌ Share predictions with students or parents without professional review
+- ❌ Replace qualitative judgement with algorithmic scoring
+- ❌ Infer causation from association-based predictions

@@ -1,0 +1,65 @@
+---
+title: "Industry Problem"
+description: "Why student academic risk prediction matters in education"
+---
+
+## Context
+
+Early identification of at-risk students is one of the most impactful
+interventions available to educational institutions. Research consistently shows
+that students who fall behind in mathematics in secondary school face compounding
+disadvantages: lower attainment in subsequent years, reduced access to higher
+education, and longer-term socioeconomic consequences.
+
+Despite this, most schools lack systematic, data-driven tools to identify
+struggling students *before* their final grade determines their fate.
+Counsellors often rely on intuition, teacher referrals, or reactive indicators
+(e.g., failing a test) rather than early warning signals.
+
+---
+
+## The Problem This Project Addresses
+
+> **How can we use routinely collected student data to proactively identify
+> students at risk of failing, so counsellors can intervene early?**
+
+Specifically, this project addresses:
+
+1. **Detection** — Which students are most likely to achieve a final grade
+   below 10 (the passing threshold on the Portuguese 0–20 scale)?
+2. **Understanding** — Which factors (attendance, study habits, family support)
+   are most strongly associated with academic risk?
+3. **Prioritisation** — Given limited counsellor time, which students should
+   be contacted first?
+4. **Simulation** — If we were to intervene (e.g., add school support, reduce
+   absences), how might predicted risk change?
+
+---
+
+## Why This Dataset
+
+The UCI *Student Performance* dataset was collected from two Portuguese secondary
+schools and contains rich sociodemographic and behavioural predictors alongside
+three period grades (G1, G2, G3). This makes it well-suited for:
+
+- Studying how non-academic factors relate to academic outcomes
+- Building interpretable risk models without complex features
+- Demonstrating the value of early-warning analytics in education
+
+---
+
+## Responsible Use Framework
+
+This project explicitly adopts a **responsible use framework**:
+
+| Principle | Implementation |
+|---|---|
+| **Observational humility** | All results framed as associations; causal language blocked by `validate_causal_claims()` |
+| **Human oversight** | Predictions are decision-support only; counsellor review is always required |
+| **Transparency** | All code is open and reproducible; limitations documented explicitly |
+| **Fairness awareness** | Model evaluated across demographic groups (sex, school, address) |
+| **Privacy** | No personal identifiers stored or displayed; anonymised row indices used |
+
+---
+
+*Continue to [Dataset](dataset.qmd) to explore the data source.*

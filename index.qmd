@@ -1,0 +1,70 @@
+---
+title: "CLEREVA Student Success Assistant"
+description: "Identifying academic risk in Portuguese secondary schools through reproducible data analysis"
+---
+
+```{r}
+#| label: setup
+#| include: false
+source("R/validation.R")
+```
+
+## Welcome
+
+The **CLEREVA Student Success Assistant** is a reproducible data analysis project
+that applies statistical skills to the UCI *Student Performance* dataset
+(Mathematics cohort, N = 394) to support academic counsellors in identifying
+at-risk students and planning evidence-based interventions.
+
+> **Responsible Use Reminder:** All findings in this project are based on
+> observational data and represent *associations*, not causal effects. Model
+> outputs are decision-support indicators — human review is always required
+> before taking action.
+
+---
+
+## What This Project Does
+
+This project implements six statistical skills, each answering a specific
+operational question:
+
+| # | Skill | Question |
+|---|---|---|
+| 1 | [Explore](explore.qmd) | What does student performance look like? |
+| 2 | [Compare](compare.qmd) | Do student groups differ meaningfully? |
+| 3 | [Model](model.qmd) | Which factors are associated with academic risk? |
+| 4 | [Absence Analysis](absence-analysis.qmd) | How are absences related to final grades? |
+| 5 | [Support Ranking](support-ranking.qmd) | Which students should be reviewed first? |
+| 6 | [Scenario Analysis](scenario-analysis.qmd) | How would modelled risk change under alternatives? |
+
+---
+
+## Project Architecture
+
+```
+clereva-student-success-assistant/
+├── R/               # Analysis scripts (one per skill)
+├── .agents/skills/  # Agent skill definitions (auto-discovered)
+├── data/            # Raw, processed, and output data
+├── models/          # Trained model and performance metrics
+├── tests/           # Validation unit tests + skill integration tests
+└── docs/            # Rendered Quarto website (this site)
+```
+
+---
+
+## Validation Layer
+
+Every analysis script passes through a shared validation layer
+([`R/validation.R`](R/validation.R)) that enforces:
+
+- ✅ Required column presence and correct types
+- ✅ Sample size thresholds (minimum 30 for CLT assumptions)
+- ✅ Variable range bounds (grades 0–20, age 15–22, absences 0–100)
+- ✅ Two-group structure for statistical comparisons
+- ✅ Missingness detection
+- ✅ Causal language prevention in narrative text
+
+---
+
+*Navigate to any section using the sidebar or the table above.*
