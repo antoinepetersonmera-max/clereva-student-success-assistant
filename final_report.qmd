@@ -123,6 +123,8 @@ knitr::kable(summary_tbl[summary_tbl$variable %in% c("G1", "G2", "G3", "absences
 ```{r}
 #| label: eda-dist
 #| fig-cap: "Grade distributions across three assessment periods"
+#| out-width: "85%"
+#| fig-align: center
 knitr::include_graphics("data/outputs/figures/grade_distribution.png")
 ```
 
@@ -133,6 +135,8 @@ knitr::include_graphics("data/outputs/figures/grade_distribution.png")
 ```{r}
 #| label: compare-school
 #| fig-cap: "Average grade comparison: GP vs. MS students"
+#| out-width: "85%"
+#| fig-align: center
 knitr::include_graphics("data/outputs/figures/compare_school_bar.png")
 ```
 
@@ -170,6 +174,8 @@ knitr::kable(metrics,
 ```{r}
 #| label: roc-fig
 #| fig-cap: "ROC curve — logistic regression risk model"
+#| out-width: "85%"
+#| fig-align: center
 if (file.exists("data/outputs/figures/roc_curve.png")) {
     knitr::include_graphics("data/outputs/figures/roc_curve.png")
 }
@@ -178,6 +184,8 @@ if (file.exists("data/outputs/figures/roc_curve.png")) {
 ```{r}
 #| label: predictor-fig
 #| fig-cap: "Logistic regression coefficients by predictor"
+#| out-width: "85%"
+#| fig-align: center
 knitr::include_graphics("data/outputs/figures/predictor_importance.png")
 ```
 
@@ -197,6 +205,8 @@ knitr::kable(tier,
 ```{r}
 #| label: absence-scatter
 #| fig-cap: "Absences vs. final grade (G3) with regression line"
+#| out-width: "85%"
+#| fig-align: center
 knitr::include_graphics("data/outputs/figures/absence_scatter.png")
 ```
 
